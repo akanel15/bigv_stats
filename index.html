@@ -3,91 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Basketball Victoria Data Viewer - Access and visualize data from the Basketball Victoria API">
-    <meta name="keywords" content="basketball, victoria, stats, API, data, viewer">
-    <meta name="author" content="Basketball Victoria Data Viewer">
-    
-    <title>Basketball Victoria Data Viewer</title>
-    
-    <!-- Favicon (optional - add your own) -->
+    <meta name="description" content="Basketball Victoria Stats Downloader - Download player statistics in Excel format">
+    <title>BigV Stats Downloader</title>
+    <!-- SheetJS library for Excel file generation -->
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <!-- Basketball favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏀</text></svg>">
-    
-    <!-- Additional custom styles -->
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f9f9f9;
             margin: 0;
-            padding: 0;
-        }
-        
-        #app-container {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            min-height: 100vh;
+            background-color: #f5f5f5;
+            color: #333;
         }
-        
-        .header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 20px;
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        
-        .header h1 {
-            margin: 0;
+
+        h1 {
             color: #2c3e50;
-        }
-        
-        .header p {
-            color: #7f8c8d;
-            margin-top: 10px;
-        }
-        
-        footer {
             text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .step h2 {
+            margin: 0 0 15px 0;
+            color: #34495e;
+            font-size: 1.2em;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+        }
+
+        select:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #2980b9;
+        }
+
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        #status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+        }
+
+        .error {
+            color: #c0392b;
+            background-color: #fadbd8;
+            border-left-color: #c0392b;
+        }
+
+        footer {
             margin-top: 30px;
-            padding: 20px 0;
-            border-top: 1px solid #eee;
+            text-align: center;
             color: #7f8c8d;
             font-size: 0.9em;
         }
-        
-        a {
+
+        footer a {
             color: #3498db;
             text-decoration: none;
         }
-        
-        a:hover {
+
+        footer a:hover {
             text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .step {
+                padding: 15px;
+            }
+        }
+
+        .filename-input-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .filename-input-container input {
+            border: none;
+            margin: 0;
+            flex: 1;
+            width: auto;
+        }
+
+        .filename-input-container .extension {
+            padding: 10px;
+            background: #f5f5f5;
+            color: #666;
+            border-left: 1px solid #ddd;
+            font-family: monospace;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <div id="app-container">
-        <header class="header">
-            <h1>Basketball Victoria Data Viewer</h1>
-            <p>Access and explore data from the Basketball Victoria API</p>
-        </header>
-        
-        <main id="app">
-            <!-- The JavaScript will insert content here -->
-        </main>
-        
+    <div class="container">
+        <h1>BigV Stats Downloader</h1>
+        <p class="description">Download basketball statistics from Basketball Victoria in Excel format</p>
+
+        <div class="step">
+            <h2>Step 1: Choose Excel File Name</h2>
+            <div class="filename-input-container">
+                <input type="text" id="filename" placeholder="Enter filename (e.g., bigv_stats)" value="bigv_stats">
+                <span class="extension">.xlsx</span>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2>Step 2: Select Competition</h2>
+            <select id="competitionSelect">
+                <option value="">Select a competition</option>
+            </select>
+        </div>
+
+        <div class="step">
+            <h2>Step 3: Select Season</h2>
+            <select id="seasonSelect" disabled>
+                <option value="">First select a competition</option>
+            </select>
+        </div>
+
+        <button id="downloadButton" disabled>Download Excel File</button>
+
+        <div id="status">Ready to start</div>
+
         <footer>
-            <p>Basketball Victoria Data Viewer © 2025 | Data provided by Basketball Victoria API</p>
+            <p>BigV Stats Downloader 2025</p>
             <p>
-                <a href="https://github.com/yourusername/basketball-victoria-viewer" target="_blank">View on GitHub</a>
-                | <a href="https://www.basketballvictoria.com.au/" target="_blank">Basketball Victoria</a>
+                <a href="https://github.com/akanel15/bigv_stats" target="_blank">View on GitHub</a>
+                | <a href="https://www.basketballvictoria.com.au/bigv/statistics" target="_blank">BigV Stats</a>
             </p>
         </footer>
     </div>
-    
+
     <!-- Load the JavaScript file -->
     <script src="bigv_stats.js"></script>
 </body>

@@ -1,6 +1,6 @@
 # BigV Stats Downloader
 
-A web-based tool to download Basketball Victoria (BigV) statistics in Excel format. This tool allows you to easily access and download player statistics for various BigV competitions and seasons.
+A web-based tool to download Basketball Victoria (BigV) statistics in Excel format. This tool allows you to access and download player statistics for various BigV competitions and seasons.
 
 ## Features
 

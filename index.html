@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Basketball Victoria Data Viewer - Access and visualize data from the Basketball Victoria API">
+    <meta name="keywords" content="basketball, victoria, stats, API, data, viewer">
+    <meta name="author" content="Basketball Victoria Data Viewer">
+    
+    <title>Basketball Victoria Data Viewer</title>
+    
+    <!-- Favicon (optional - add your own) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏀</text></svg>">
+    
+    <!-- Additional custom styles -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 100vh;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <header class="header">
+            <h1>Basketball Victoria Data Viewer</h1>
+            <p>Access and explore data from the Basketball Victoria API</p>
+        </header>
+        
+        <main id="app">
+            <!-- The JavaScript will insert content here -->
+        </main>
+        
+        <footer>
+            <p>Basketball Victoria Data Viewer © 2025 | Data provided by Basketball Victoria API</p>
+            <p>
+                <a href="https://github.com/yourusername/basketball-victoria-viewer" target="_blank">View on GitHub</a>
+                | <a href="https://www.basketballvictoria.com.au/" target="_blank">Basketball Victoria</a>
+            </p>
+        </footer>
+    </div>
+    
+    <!-- Load the JavaScript file -->
+    <script src="bigv_stats.js"></script>
+</body>
+</html>
+
